@@ -36,3 +36,5 @@ argocd/               argocd-app.yaml (applied once, NOT inside k8s-manifests/)
 - I am learning DevOps: after each step, explain briefly in plain words what you did and why,
   so I can explain it in an interview.
 - Only do the step I ask for. Don't jump ahead.
+- Never add Co-Authored-By: Claude, 'Generated with Claude Code', claude.ai links, or any AI
+  attribution to commit messages, PR descriptions, or code comments. All commits are authored by me only.
