@@ -29,7 +29,8 @@ COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 ARG APP_VERSION=dev
 ENV APP_VERSION=${APP_VERSION}
 
-# The official node image ships a non-root "node" user (uid 1000)
-USER node
+# The official node image ships a non-root "node" user (uid 1000). Numeric, so Kubernetes
+# runAsNonRoot can verify it's not root (it can't resolve user names).
+USER 1000:1000
 EXPOSE 3000
 CMD ["node", "server.js"]
