@@ -1,0 +1,20 @@
+# Tells the Prometheus Operator: scrape every Service labelled app=devops-app.
+# Prometheus then scrapes each pod behind it individually (one target per replica).
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: devops-app
+  namespace: app
+  labels:
+    app: devops-app
+spec:
+  selector:
+    matchLabels:
+      app: devops-app
+  namespaceSelector:
+    matchNames:
+      - app
+  endpoints:
+    - port: http
+      path: /api/metrics
+      interval: 15s
