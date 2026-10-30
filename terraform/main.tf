@@ -113,6 +113,12 @@ resource "helm_release" "argocd" {
     notifications = { enabled = false }
 
     configs = {
+      cm = {
+        # Poll Git every 60s instead of the default 120s (+ up to 60s random jitter),
+        # so a pushed change shows up quickly during a live demo
+        "timeout.reconciliation"        = "60s"
+        "timeout.reconciliation.jitter" = "0s"
+      }
       params = {
         # Serve the UI over plain HTTP so `kubectl port-forward` works without TLS errors
         "server.insecure" = true

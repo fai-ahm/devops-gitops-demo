@@ -1,0 +1,22 @@
+# Applied once by hand (kubectl apply -f). Kept outside k8s-manifests/ so ArgoCD
+# doesn't manage, and possibly prune, its own definition.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fai-ahm/devops-gitops-demo.git
+    targetRevision: main
+    path: k8s-manifests
+  destination:
+    server: https://kubernetes.default.svc # the cluster ArgoCD itself runs in
+    namespace: app
+  syncPolicy:
+    automated:
+      prune: true # delete cluster objects that were removed from Git
+      selfHeal: true # revert manual changes made directly in the cluster
+    syncOptions:
+      - CreateNamespace=true
