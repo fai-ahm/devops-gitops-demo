@@ -80,10 +80,14 @@ resource "helm_release" "kube_prometheus_stack" {
 
     grafana = {
       adminPassword = "prom-operator"
-      # Grafana 12 needs ~300Mi just to start; at 256Mi it thrashes and never becomes ready
+      # At 256Mi Grafana never finished starting; at 512Mi it thrashed once a 10s-refresh
+      # dashboard was open. GOMEMLIMIT makes Go's GC work harder before reaching the limit.
       resources = {
-        requests = { cpu = "50m", memory = "256Mi" }
-        limits   = { memory = "512Mi" }
+        requests = { cpu = "50m", memory = "384Mi" }
+        limits   = { memory = "1Gi" }
+      }
+      env = {
+        GOMEMLIMIT = "900MiB"
       }
       sidecar = {
         dashboards = {
