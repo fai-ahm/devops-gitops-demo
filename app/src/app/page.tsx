@@ -10,13 +10,13 @@ export default function Home() {
   return (
     <main className="container">
       <header className="header">
-        <h1>Demo Feed</h1>
+        <h1>FriendGroup</h1>
         <span className="version" title="Running app version">
           v: {version}
         </span>
       </header>
       <p className="signed-in">
-        Signed in as <strong>demo-user</strong>
+        Signed in as <strong>JohnDorian</strong>
       </p>
       <Feed />
     </main>

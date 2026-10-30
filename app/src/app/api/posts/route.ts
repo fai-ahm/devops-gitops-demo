@@ -39,7 +39,7 @@ export const POST = withMetrics("/api/posts", async (req) => {
     await ensureSchema();
     const { rows } = await pool.query<Post>(
       "INSERT INTO posts (author, content) VALUES ($1, $2) RETURNING id, author, content, created_at",
-      ["demo-user", content.trim()]
+      ["JohnDorian", content.trim()]
     );
     metrics.postsCreatedTotal.inc();
     return NextResponse.json(rows[0], { status: 201 });

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DevOps Demo Feed",
+  title: "FriendGroup",
   description: "GitOps pipeline demo app",
 };
 
