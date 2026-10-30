@@ -4,13 +4,13 @@ kind: Kustomization
 namespace: app
 
 resources:
-  - db-secret.yaml
-  - db-statefulset.yaml
-  - app-deployment.yaml
-  - servicemonitor.yaml
+- db-secret.yaml
+- db-statefulset.yaml
+- app-deployment.yaml
+- servicemonitor.yaml
 
 # CI rewrites newTag to the short git commit SHA of each build. Never use :latest.
 images:
-  - name: devops-app
-    newName: ghcr.io/fai-ahm/devops-app
-    newTag: replace-by-ci
+- name: devops-app
+  newName: ghcr.io/fai-ahm/devops-app
+  newTag: replace-by-ci
