@@ -16,7 +16,7 @@ export default function Home() {
         </span>
       </header>
       <p className="signed-in">
-        Signed in as <strong>JohnDorian</strong>
+        Signed in as <strong>JohnDorian</strong> · catching up with the group
       </p>
       <Feed />
     </main>
