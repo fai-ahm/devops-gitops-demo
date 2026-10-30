@@ -1,10 +1,11 @@
-import { Counter, Histogram, Registry, collectDefaultMetrics } from "prom-client";
+import { Counter, Gauge, Histogram, Registry, collectDefaultMetrics } from "prom-client";
 
 type Metrics = {
   registry: Registry;
   httpRequestsTotal: Counter<"method" | "route" | "status">;
   httpRequestDuration: Histogram<"method" | "route" | "status">;
   postsCreatedTotal: Counter;
+  appInfo: Gauge<"version">;
 };
 
 // Same singleton trick as the DB pool: registering a metric twice throws,
@@ -15,7 +16,18 @@ function createMetrics(): Metrics {
   const registry = new Registry();
   collectDefaultMetrics({ register: registry });
 
+  // "Info" metric: value is always 1, the useful part is the label.
+  // Lets Grafana show which version each pod runs and when that changed.
+  const appInfo = new Gauge({
+    name: "app_info",
+    help: "Running app version (value is always 1)",
+    labelNames: ["version"],
+    registers: [registry],
+  });
+  appInfo.set({ version: process.env.APP_VERSION ?? "dev" }, 1);
+
   return {
+    appInfo,
     registry,
     httpRequestsTotal: new Counter({
       name: "http_requests_total",
