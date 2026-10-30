@@ -13,4 +13,4 @@ resources:
 images:
 - name: devops-app
   newName: ghcr.io/fai-ahm/devops-app
-  newTag: 1b52d38
+  newTag: 8023d3c
