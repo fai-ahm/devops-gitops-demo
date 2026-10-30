@@ -8,6 +8,8 @@ resources:
 - db-statefulset.yaml
 - app-deployment.yaml
 - servicemonitor.yaml
+- grafana-dashboard.yaml
+- prometheus-rules.yaml
 
 # CI rewrites newTag to the short git commit SHA of each build. Never use :latest.
 images:
