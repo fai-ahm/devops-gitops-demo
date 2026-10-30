@@ -5,22 +5,31 @@ import type { Post } from "@/lib/db";
 
 const REFRESH_MS = 5000;
 
+async function fetchPosts(): Promise<Post[]> {
+  const res = await fetch("/api/posts", { cache: "no-store" });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
 export default function Feed() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [content, setContent] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const loadPosts = useCallback(async () => {
-    try {
-      const res = await fetch("/api/posts", { cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setPosts(await res.json());
-      setError(null);
-    } catch {
-      setError("Could not load posts");
-    }
-  }, []);
+  // State is only set in the promise callbacks (when the response arrives),
+  // never synchronously inside the effect that calls this.
+  const loadPosts = useCallback(
+    () =>
+      fetchPosts().then(
+        (data) => {
+          setPosts(data);
+          setError(null);
+        },
+        () => setError("Could not load posts")
+      ),
+    []
+  );
 
   useEffect(() => {
     loadPosts();
