@@ -10,12 +10,14 @@ ArgoCD deploys it to Kubernetes -> Prometheus + Grafana show it's healthy.
   `minikube start --driver=docker --nodes=3 --memory=3000 --cpus=2 -p dev-cluster`
   Node names: dev-cluster (control plane), dev-cluster-m02, dev-cluster-m03
 - Docker images are built for linux/arm64 ONLY
+- Container registry: GitHub Container Registry (NOT Docker Hub): ghcr.io/fai-ahm/devops-app
+- Git remote: https://github.com/fai-ahm/devops-gitops-demo.git (branch main)
 
 ## Stack
 - App: Next.js (App Router, TypeScript) as frontend AND backend (Route Handlers), PostgreSQL via `pg`
 - Infra: Terraform (kubernetes + helm providers) installs ArgoCD and kube-prometheus-stack
 - Manifests: plain YAML + kustomization.yaml in k8s-manifests/
-- CI: GitHub Actions on runner ubuntu-24.04-arm
+- CI: GitHub Actions on runner ubuntu-24.04-arm, pushes images to ghcr.io/fai-ahm/devops-app
 - CD: ArgoCD watching k8s-manifests/ (GitOps)
 - Observability: kube-prometheus-stack (Prometheus + Grafana), app exposes /api/metrics via prom-client
 

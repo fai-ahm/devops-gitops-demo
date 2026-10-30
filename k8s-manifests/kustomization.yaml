@@ -12,5 +12,5 @@ resources:
 # CI rewrites newTag to the short git commit SHA of each build. Never use :latest.
 images:
   - name: devops-app
-    newName: your-dockerhub-user/devops-app
+    newName: ghcr.io/fai-ahm/devops-app
     newTag: replace-by-ci
